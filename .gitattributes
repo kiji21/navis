@@ -1,1 +1,12 @@
 * text=auto eol=lf
+# Windows 批处理文件必须使用 CRLF
+*.bat text eol=crlf
+# 二进制文件不转换
+*.png binary
+*.jpg binary
+*.ico binary
+*.gif binary
+*.psd binary
+*.zip binary
+*.exe binary
+*.dll binary
