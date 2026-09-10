@@ -9,8 +9,8 @@ namespace Admin.NET.Plugin.DingTalk;
 /// <summary>
 /// 钉钉用户表
 /// </summary>
-[SugarTable(null, "钉钉用户表")]
-public class DingTalkUser : EntityBase
+[SugarTable("ding_talk_user", "钉钉用户表")]
+public class DingTalkUser : EntityBaseDel
 {
     /// <summary>
     /// 系统用户Id
@@ -79,7 +79,7 @@ public class DingTalkUser : EntityBase
     /// </summary>
     [SugarColumn(ColumnDescription = "主部门Id", Length = 16)]
     [MaxLength(16)]
-    public string? DeptId { get; set; }
+    public long? DeptId { get; set; }
 
     /// <summary>
     /// 主部门
