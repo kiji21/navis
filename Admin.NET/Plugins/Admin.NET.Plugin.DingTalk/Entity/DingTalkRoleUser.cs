@@ -9,7 +9,7 @@ namespace Admin.NET.Plugin.DingTalk;
 /// <summary>
 /// 钉钉角色信息
 /// </summary>
-[SugarTable(null, "钉钉角色表")]
+[SugarTable("ding_talk_user_role", "钉钉角色表")]
 public class DingTalkRoleUser : EntityBaseDel
 {
     /// <summary>

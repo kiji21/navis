@@ -5,13 +5,23 @@
     "Group": "DingTalk",
     "Title": "钉钉开放平台",
     "Description": "集成钉钉开放平台",
-    "Version": "1.0.0",
+    "Version": "2.0.0",
     "Order": 90
   },
   "DingTalk": {
     "AppId": "",
     "AgentId": "",
     "ClientId": "xxxx", // 原 AppKey 和 SuiteKey
-    "ClientSecret": "xxxx" // 原 AppSecret 和 SuiteSecret
+    "ClientSecret": "xxxx", // 原 AppSecret 和 SuiteSecret
+    "ApiCardTemplateId": "XXXX", //Api卡片消息
+    "RobotCode": "XXXX", //钉钉机器人
+    "StreamEnabled": false, // 是否启用 Stream 长连接接收事件订阅（无需公网回调地址）
+    "StreamDebugLog": false, // 是否输出 Stream 收发帧详细调试日志（首次联调开启，生产关闭）
+    "StreamTypeSystem": "SYSTEM", // Stream 协议帧类型：系统指令（ping/disconnect 等）
+    "StreamTypeEvent": "EVENT", // Stream 协议帧类型：业务事件
+    "ReconnectBaseSeconds": 3, // Stream 断线重连间隔基准（秒），实际按尝试次数指数退避，上限 60s
+    "DingTalkInfoRemark": "钉钉同步",
+    "DefaultTenantId": 1300000000001,
+    "RootOrgPid": 1300000000001
   }
 }

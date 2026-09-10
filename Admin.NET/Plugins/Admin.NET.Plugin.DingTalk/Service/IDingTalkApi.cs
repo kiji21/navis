@@ -1,8 +1,10 @@
-﻿// Admin.NET 项目的版权、商标、专利和其他相关权利均受相应法律法规的保护。使用本项目应遵守相关法律法规和许可证的要求。
+// Admin.NET 项目的版权、商标、专利和其他相关权利均受相应法律法规的保护。使用本项目应遵守相关法律法规和许可证的要求。
 //
 // 本项目主要遵循 MIT 许可证和 Apache 许可证（版本 2.0）进行分发和使用。许可证位于源代码树根目录中的 LICENSE-MIT 和 LICENSE-APACHE 文件。
 //
 // 不得利用本项目从事危害国家安全、扰乱社会秩序、侵犯他人合法权益等法律法规禁止的活动！任何基于本项目二次开发而产生的一切法律纠纷和责任，我们不承担任何责任！
+
+using Admin.NET.Plugin.DingTalk.Service.Dto;
 
 namespace Admin.NET.Plugin.DingTalk;
 
@@ -130,6 +132,46 @@ public interface IDingTalkApi : IHttpDeclarative
     );
 
     /// <summary>
+    /// 获取指定部门详情（按 dept_id 查询单个部门，含名称、上级部门）
+    /// </summary>
+    /// <param name="access_token">调用该接口的应用凭证</param>
+    /// <param name="input"></param>
+    /// <returns></returns>
+    [Post("https://oapi.dingtalk.com/topapi/v2/department/get")]
+    Task<DingTalkBaseResponse<DingTalkDeptOutput>> GetDingTalkDeptDetail(
+        [QueryParam] string access_token,
+        [Body(ContentType = "application/json", UseStringContent = true), Required]
+            GetDingTalkDeptInput input
+    );
+
+    /// <summary>
+    /// 获取角色详情（按 roleId 查询单个角色，含角色名、所属角色组）
+    /// </summary>
+    /// <param name="access_token">调用该接口的应用凭证</param>
+    /// <param name="input"></param>
+    /// <returns></returns>
+    /// <remarks>返回体的 role 位于顶层（与 errcode 平级），故用专用响应类型 DingTalkRoleGetResponse。</remarks>
+    [Post("https://oapi.dingtalk.com/topapi/role/getrole")]
+    Task<DingTalkRoleGetResponse> GetDingTalkRoleDetail(
+        [QueryParam] string access_token,
+        [Body(ContentType = "application/json", UseStringContent = true), Required]
+            GetDingTalkRoleDetailInput input
+    );
+
+    /// <summary>
+    /// 获取用户详情（按 userid 查询单个用户，含姓名/工号/手机/职位/部门列表）
+    /// </summary>
+    /// <param name="access_token">调用该接口的应用凭证</param>
+    /// <param name="input"></param>
+    /// <returns></returns>
+    [Post("https://oapi.dingtalk.com/topapi/v2/user/get")]
+    Task<DingTalkBaseResponse<DingTalkUserDetailOutput>> GetDingTalkUserDetail(
+        [QueryParam] string access_token,
+        [Body(ContentType = "application/json", UseStringContent = true), Required]
+            GetDingTalkUserDetailInput input
+    );
+
+    /// <summary>
     /// 发起审批实例
     /// </summary>
     /// <param name="token"></param>
@@ -152,5 +194,126 @@ public interface IDingTalkApi : IHttpDeclarative
     Task<DingTalkGetProcessInstancesOutput> GetProcessInstances(
         [Header("x-acs-dingtalk-access-token")] string token,
         [QueryParam] string processInstanceId
+    );
+
+
+    /// <summary>
+    /// 添加企业待入职员工
+    /// </summary>
+    /// <param name="token"></param>
+    /// <param name="input"></param>
+    /// <returns></returns>
+    [Post("https://oapi.dingtalk.com/topapi/smartwork/hrm/employee/addpreentry")]
+    Task<DingTalkAddPreentryOutput> DingTalkAddPreentry(
+        [Header("x-acs-dingtalk-access-token")] string token,
+        [Body(ContentType = "application/json", UseStringContent = true), Required]
+            DingTalkAddPreentryInput input
+    );
+
+
+    /// <summary>
+    /// 添加企业加入待离职
+    /// </summary>
+    /// <param name="token"></param>
+    /// <param name="input"></param>
+    /// <returns></returns>
+    [Post("https://oapi.dingtalk.com/topapi/smartwork//hrm/pendingDismission/start")]
+    Task<DingTalkpendingDismissionOutput> DingTalkpendingDismission(
+        [Header("x-acs-dingtalk-access-token")] string token,
+        [Body(ContentType = "application/json", UseStringContent = true), Required]
+            DingTalkpendingDismissionInput input
+    );
+
+    /// <summary>
+    /// 通过免登码获取用户信息
+    /// </summary>
+    /// <param name="access_token">调用该接口的应用凭证</param>
+    /// <param name="input">包含前端传来的免登授权码 code</param>
+    /// <returns></returns>
+    [Post("https://oapi.dingtalk.com/topapi/v2/user/getuserinfo")]
+    Task<DingTalkBaseResponse<GetDingTalkUserInfoOutput>> GetDingTalkUserInfo(
+        [QueryParam] string access_token,
+        [Body(ContentType = "application/json", UseStringContent = true), Required]
+            GetDingTalkUserInfoInput input
+    );
+
+    /// <summary>
+    /// 查询“我审批的”待处理审批任务列表（OA高级版专享）
+    /// </summary>
+    /// <param name="token"></param>
+    /// <param name="input"></param>
+    /// <returns></returns>
+    [Post("https://api.dingtalk.com/v1.0/workflow/processCentres/tasks/todo/query")]
+    Task<DingTalkProcessCentreTaskOutput> GetProcessCentreTodoTasks(
+        [Header("x-acs-dingtalk-access-token")] string token,
+        [Body(ContentType = "application/json", UseStringContent = true), Required]
+            DingTalkProcessCentreQueryInput input
+    );
+
+    /// <summary>
+    /// 查询“我审批的”已处理审批任务列表（OA高级版专享）
+    /// </summary>
+    /// <param name="token"></param>
+    /// <param name="input"></param>
+    /// <returns></returns>
+    [Post("https://api.dingtalk.com/v1.0/workflow/processCentres/tasks/done/query")]
+    Task<DingTalkProcessCentreTaskOutput> GetProcessCentreDoneTasks(
+        [Header("x-acs-dingtalk-access-token")] string token,
+        [Body(ContentType = "application/json", UseStringContent = true), Required]
+            DingTalkProcessCentreQueryInput input
+    );
+
+    /// <summary>
+    /// 查询“我发起的”审批实例列表（OA高级版专享）
+    /// </summary>
+    /// <param name="token"></param>
+    /// <param name="input"></param>
+    /// <returns></returns>
+    [Post("https://api.dingtalk.com/v1.0/workflow/processCentres/instances/submitted/query")]
+    Task<DingTalkProcessCentreInstanceOutput> GetProcessCentreSubmittedInstances(
+        [Header("x-acs-dingtalk-access-token")] string token,
+        [Body(ContentType = "application/json", UseStringContent = true), Required]
+            DingTalkProcessCentreQueryInput input
+    );
+
+    /// <summary>
+    /// 查询“我收到的”审批实例列表（抄送我的，OA高级版专享）
+    /// </summary>
+    /// <param name="token"></param>
+    /// <param name="input"></param>
+    /// <returns></returns>
+    [Post("https://api.dingtalk.com/v1.0/workflow/processCentres/instances/noticed/query")]
+    Task<DingTalkProcessCentreInstanceOutput> GetProcessCentreNoticedInstances(
+        [Header("x-acs-dingtalk-access-token")] string token,
+        [Body(ContentType = "application/json", UseStringContent = true), Required]
+            DingTalkProcessCentreQueryInput input
+    );
+
+    /// <summary>
+    /// 获取审批实例ID列表（标准版，可按发起人过滤）
+    /// </summary>
+    /// <param name="token"></param>
+    /// <param name="input"></param>
+    /// <returns></returns>
+    [Post("https://api.dingtalk.com/v1.0/workflow/processes/instanceIds/query")]
+    Task<DingTalkListInstanceIdsOutput> ListProcessInstanceIds(
+        [Header("x-acs-dingtalk-access-token")] string token,
+        [Body(ContentType = "application/json", UseStringContent = true), Required]
+            DingTalkListInstanceIdsInput input
+    );
+
+    /// <summary>
+    /// 建立 Stream 长连接，获取 WebSocket 接入端点与建连票据
+    /// </summary>
+    /// <remarks>
+    /// 使用 clientId/clientSecret 直接换取网关接入地址，无需 access_token。
+    /// 返回的 endpoint 需拼接 ticket 作为 query 参数后再用 WebSocket 建连。
+    /// </remarks>
+    /// <param name="input"></param>
+    /// <returns></returns>
+    [Post("https://api.dingtalk.com/v1.0/gateway/connections/open")]
+    Task<DingTalkStreamOpenOutput> OpenStreamConnection(
+        [Body(ContentType = "application/json", UseStringContent = true), Required]
+            DingTalkStreamOpenInput input
     );
 }

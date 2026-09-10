@@ -20,4 +20,14 @@
     <ProjectReference Include="..\..\Admin.NET.Core\Admin.NET.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Configuration\DingTalk.json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Job\" />
+  </ItemGroup>
+
 </Project>

@@ -1,4 +1,4 @@
-﻿// Admin.NET 项目的版权、商标、专利和其他相关权利均受相应法律法规的保护。使用本项目应遵守相关法律法规和许可证的要求。
+// Admin.NET 项目的版权、商标、专利和其他相关权利均受相应法律法规的保护。使用本项目应遵守相关法律法规和许可证的要求。
 //
 // 本项目主要遵循 MIT 许可证和 Apache 许可证（版本 2.0）进行分发和使用。许可证位于源代码树根目录中的 LICENSE-MIT 和 LICENSE-APACHE 文件。
 //
@@ -71,4 +71,15 @@ public class ResultData
     public List<TaskItem> Tasks { get; set; }
     public string OriginatorDeptName { get; set; }
     public string Status { get; set; }
+
+    /// <summary>
+    /// 审批人 userId 列表。
+    /// 说明：仅使用接口发起的审批单返回该参数；在 OA 审批应用手动发起的审批单不返回。
+    /// </summary>
+    public List<string> ApproverUserIds { get; set; }
+
+    /// <summary>
+    /// 抄送人 userId 列表。
+    /// </summary>
+    public List<string> CcUserIds { get; set; }
 }
