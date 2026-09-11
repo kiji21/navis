@@ -19,7 +19,7 @@ public class UserTest : BaseTest
     }
 
     [Fact]
-    public async Task Login()
+    public async Task Login_User()
     {
         await base.Login();
         WaitEnter();
