@@ -46,3 +46,8 @@ node_modules/
 Admin.NET/Admin.NET.Application/Configuration/DeepSeek.json
 *.user
 /Admin.NET/.github
+/Admin.NET/Admin.NET.Application/Configuration/Database.json
+/Admin.NET/SongMana/Configuration/Database.json
+/Bat/secret_pass.txt
+/发布
+/Admin.NET/Admin.NET.lutconfig
